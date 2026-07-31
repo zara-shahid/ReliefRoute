@@ -1,10 +1,15 @@
 import json
 import os
 from pathlib import Path
-from dotenv import load_dotenv
 
-# Always reload .env so key updates take effect without restart
-load_dotenv(Path(__file__).resolve().parent.parent.parent / 'backend' / '.env', override=True)
+try:
+    from dotenv import load_dotenv
+    # Load .env for local dev — optional so Vercel doesn't crash
+    _env_path = Path(__file__).resolve().parent.parent / '.env'
+    if _env_path.exists():
+        load_dotenv(_env_path, override=True)
+except ImportError:
+    pass
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
