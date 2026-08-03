@@ -2,7 +2,14 @@ import axios from 'axios';
 import { Site, Vehicle, Route } from '@/types';
 
 const getApiBaseUrl = () => {
-  if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
+  let url = process.env.NEXT_PUBLIC_API_URL;
+  if (url && url.trim()) {
+    url = url.trim().replace(/\/+$/, ''); // Remove trailing slash
+    if (!url.endsWith('/api')) {
+      url += '/api';
+    }
+    return url;
+  }
   if (typeof window !== 'undefined' && !window.location.hostname.includes('localhost') && !window.location.hostname.includes('127.0.0.1')) {
     return '/api';
   }
