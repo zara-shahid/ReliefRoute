@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { Site, Route } from '@/types';
 import { SimulatedVehicleState } from './VehicleSimulator';
@@ -10,6 +10,20 @@ interface MapProps {
   sites: Site[];
   routes: Route[];
   simulatedVehicles?: SimulatedVehicleState[];
+  isVisible?: boolean;
+}
+
+function MapResizer({ isVisible }: { isVisible: boolean }) {
+  const map = useMap();
+  useEffect(() => {
+    if (isVisible) {
+      const timer = setTimeout(() => {
+        map.invalidateSize();
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [map, isVisible]);
+  return null;
 }
 
 const getUrgencyColor = (score: number) => {
@@ -57,7 +71,7 @@ const createSiteIcon = (urgencyScore: number) => {
 
 const routeColors = ['#8b5cf6', '#06b6d4', '#10b981', '#f97316', '#ec4899', '#eab308'];
 
-export default function MapComponent({ sites, routes, simulatedVehicles = [] }: MapProps) {
+export default function MapComponent({ sites, routes, simulatedVehicles = [], isVisible = true }: MapProps) {
   const [mapStyle, setMapStyle] = useState<'voyager' | 'dark'>('voyager');
 
   const defaultCenter: [number, number] = sites.length > 0
@@ -127,6 +141,7 @@ export default function MapComponent({ sites, routes, simulatedVehicles = [] }: 
         zoomControl={true}
       >
         <TileLayer url={tileUrl} attribution="" />
+        <MapResizer isVisible={isVisible} />
 
         {sites.map((site) => (
           <Marker

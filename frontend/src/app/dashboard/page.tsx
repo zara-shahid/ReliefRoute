@@ -148,7 +148,7 @@ export default function Dashboard() {
 
           {/* TACTICAL MAP TAB */}
           <div className={`w-full h-full relative ${activeTab === 'map' ? 'block' : 'hidden'}`}>
-            <MapComponent sites={sites} routes={routes} simulatedVehicles={simulatedVehicles} />
+            <MapComponent sites={sites} routes={routes} simulatedVehicles={simulatedVehicles} isVisible={activeTab === 'map'} />
             <div className="absolute top-4 right-4 pointer-events-none flex flex-col gap-1.5 z-[1000]">
               {[
                 { label: 'SITES ACTIVE', value: sites.length, cls: 'text-cyan-400', border: 'border-slate-800' },
