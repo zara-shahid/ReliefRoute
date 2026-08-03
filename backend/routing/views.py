@@ -38,6 +38,7 @@ class OptimizeRouteView(APIView):
                     total_distance_km=r_data['totalDistanceKm'],
                     total_time_minutes=r_data['totalTimeMinutes'],
                     stops=r_data['stops'],
+                    road_geometry=r_data.get('roadGeometry', []),
                     driver_instructions=r_data['driverInstructions']
                 )
             except Exception:

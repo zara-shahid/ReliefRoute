@@ -80,9 +80,15 @@ export default function VehicleSimulator({
       if (r.roadGeometry && r.roadGeometry.length > 1) {
         pathCoords = r.roadGeometry;
       } else {
-        pathCoords = r.stops
+        const stopCoords = r.stops
           .filter((s) => s.coords && typeof s.coords.lat === 'number')
           .map((s) => ({ lat: s.coords!.lat, lng: s.coords!.lng }));
+
+        if (stopCoords.length > 0) {
+          // Prepend central depot so vehicle animates from depot to stops
+          const depot = { lat: 37.7749, lng: -122.4194 };
+          pathCoords = [depot, ...stopCoords];
+        }
       }
 
       if (pathCoords.length < 2) {

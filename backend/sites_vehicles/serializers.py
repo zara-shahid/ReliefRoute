@@ -55,6 +55,7 @@ class VehicleSerializer(serializers.ModelSerializer):
 class RouteSerializer(serializers.ModelSerializer):
     vehicle_name = serializers.CharField(source='vehicle.name', read_only=True)
     driver_name = serializers.CharField(source='vehicle.driver_name', read_only=True)
+    roadGeometry = serializers.SerializerMethodField()
 
     class Meta:
         model = Route
@@ -66,6 +67,11 @@ class RouteSerializer(serializers.ModelSerializer):
             'total_distance_km',
             'total_time_minutes',
             'stops',
+            'road_geometry',
+            'roadGeometry',
             'driver_instructions',
             'created_at',
         ]
+
+    def get_roadGeometry(self, obj):
+        return obj.road_geometry

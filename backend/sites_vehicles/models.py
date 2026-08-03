@@ -61,6 +61,7 @@ class Route(models.Model):
     total_distance_km = models.FloatField(default=0.0)
     total_time_minutes = models.FloatField(default=0.0)
     stops = models.JSONField(default=list)
+    road_geometry = models.JSONField(default=list)
     driver_instructions = models.JSONField(default=list)
     created_at = models.DateTimeField(auto_now_add=True)
 
