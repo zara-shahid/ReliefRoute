@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
@@ -143,13 +143,13 @@ export default function Dashboard() {
         ))}
       </nav>
 
-      {/* VIEWS */}
-      <main className="flex-1 min-h-0 overflow-hidden">
+        {/* VIEWS */}
+        <main className="flex-1 min-h-0 overflow-hidden relative">
 
-        {activeTab === 'map' && (
-          <div className="w-full h-full relative">
+          {/* TACTICAL MAP TAB */}
+          <div className={`w-full h-full relative ${activeTab === 'map' ? 'block' : 'hidden'}`}>
             <MapComponent sites={sites} routes={routes} simulatedVehicles={simulatedVehicles} />
-            <div className="absolute top-4 right-4 pointer-events-none flex flex-col gap-1.5">
+            <div className="absolute top-4 right-4 pointer-events-none flex flex-col gap-1.5 z-[1000]">
               {[
                 { label: 'SITES ACTIVE', value: sites.length, cls: 'text-cyan-400', border: 'border-slate-800' },
                 { label: 'ROUTES LIVE', value: routes.length, cls: 'text-emerald-400', border: 'border-slate-800' },
@@ -161,10 +161,9 @@ export default function Dashboard() {
               ))}
             </div>
           </div>
-        )}
 
-        {activeTab === 'operations' && (
-          <div className="h-full overflow-y-auto p-6 bg-[#030712]">
+          {/* OPERATIONS TAB */}
+          <div className={`h-full overflow-y-auto p-6 bg-[#030712] ${activeTab === 'operations' ? 'block' : 'hidden'}`}>
             <div className="max-w-6xl mx-auto flex flex-col gap-6">
               <div>
                 <div className="text-[10px] text-red-400 tracking-widest mb-1">[ OPERATIONS HQ ]</div>
@@ -230,18 +229,16 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-        )}
 
-        {activeTab === 'chat' && (
-          <div className="h-full flex">
+          {/* DISPATCH AI TAB */}
+          <div className={`h-full flex ${activeTab === 'chat' ? 'block' : 'hidden'}`}>
             <div className="flex-1 h-full max-w-3xl mx-auto">
               <DispatchChat />
             </div>
           </div>
-        )}
 
-        {activeTab === 'simulator' && (
-          <div className="h-full overflow-y-auto p-6 bg-[#030712]">
+          {/* FLEET SIM TAB */}
+          <div className={`h-full overflow-y-auto p-6 bg-[#030712] ${activeTab === 'simulator' ? 'block' : 'hidden'}`}>
             <div className="max-w-4xl mx-auto flex flex-col gap-6">
               <div>
                 <div className="text-[10px] text-cyan-400 tracking-widest mb-1">[ FLEET OPERATIONS ]</div>
