@@ -31,10 +31,12 @@ export default function VehicleSimulator({
   const animationFrameRef = useRef<number | null>(null);
   const lastTimeRef = useRef<number | null>(null);
 
+  const routesKey = routes.map((r) => r.id).join(',');
+
   useEffect(() => {
     setProgress(0);
     setIsPlaying(false);
-  }, [routes]);
+  }, [routesKey]);
 
   useEffect(() => {
     if (!isPlaying || routes.length === 0) {
@@ -65,7 +67,7 @@ export default function VehicleSimulator({
     return () => {
       if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
     };
-  }, [isPlaying, speedMultiplier, routes]);
+  }, [isPlaying, speedMultiplier, routesKey]);
 
   useEffect(() => {
     if (routes.length === 0) {
