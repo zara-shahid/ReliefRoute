@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ReliefRoute — Demo Script</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    :root {
+      --red: #dc2626;
+      --red-light: #fef2f2;
+      --red-mid: #fee2e2;
+      --orange: #ea580c;
+      --orange-light: #fff7ed;
+      --yellow: #d97706;
+      --yellow-light: #fffbeb;
+      --green: #16a34a;
+      --green-light: #f0fdf4;
+      --blue: #2563eb;
+      --blue-light: #eff6ff;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-400: #9ca3af;
+      --gray-600: #4b5563;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--gray-800);
+      background: #fff;
+      font-size: 11pt;
+      line-height: 1.6;
+    }
+
+    /* ── COVER PAGE ─────────────────────────────────────────────── */
+    .cover {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #172554 100%);
+      color: white;
+      text-align: center;
+      padding: 60px 40px;
+      page-break-after: always;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cover::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(220,38,38,0.15) 0%, transparent 70%);
+      top: -100px; right: -150px;
+    }
+
+    .cover::after {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 70%);
+      bottom: -80px; left: -100px;
+    }
+
+    .cover-badge {
+      display: inline-block;
+      background: rgba(220,38,38,0.2);
+      border: 1px solid rgba(220,38,38,0.4);
+      color: #fca5a5;
+      font-size: 9pt;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+    }
+
+    .cover-logo {
+      font-size: 52pt;
+      font-weight: 800;
+      letter-spacing: -2px;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #fff 0%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .cover-subtitle {
+      font-size: 14pt;
+      font-weight: 300;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 50px;
+    }
+
+    .cover-meta {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 60px;
+    }
+
+    .cover-meta-item {
+      text-align: center;
+    }
+
+    .cover-meta-item .label {
+      font-size: 8pt;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 4px;
+    }
+
+    .cover-meta-item .value {
+      font-size: 11pt;
+      font-weight: 500;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .cover-divider {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #dc2626, #2563eb);
+      border-radius: 2px;
+      margin: 0 auto 50px;
+    }
+
+    .cover-urls {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 20px 30px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9pt;
+    }
+
+    .cover-urls .url-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 5px 0;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .cover-urls .url-label {
+      color: rgba(255,255,255,0.4);
+      width: 90px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .cover-urls .url-value { color: #93c5fd; }
+
+    /* ── PAGE LAYOUT ────────────────────────────────────────────── */
+    .page {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 50px 50px;
+    }
+
+    @media print {
+      .cover { min-height: 100vh; }
+      .page { padding: 30px 40px; }
+      .page-break { page-break-before: always; }
+    }
+
+    /* ── SECTION HEADERS ───────────────────────────────────────── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      margin-top: 40px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--gray-100);
+    }
+
+    .section-num {
+      width: 30px; height: 30px;
+      background: var(--gray-900);
+      color: white;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11pt;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-size: 17pt;
+      font-weight: 700;
+      color: var(--gray-900);
+    }
+
+    h2 {
+      font-size: 14pt;
+      font-weight: 600;
+      color: var(--gray-900);
+      margin: 24px 0 12px;
+    }
+
+    h3 {
+      font-size: 12pt;
+      font-weight: 600;
+      color: var(--gray-800);
+      margin: 16px 0 8px;
+    }
+
+    p { margin-bottom: 10px; color: var(--gray-600); }
+
+    /* ── INFO BOX ──────────────────────────────────────────────── */
+    .info-box {
+      background: var(--blue-light);
+      border-left: 4px solid var(--blue);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 10pt;
+      color: #1e40af;
+    }
+
+    .warn-box {
+      background: var(--yellow-light);
+      border-left: 4px solid var(--yellow);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 10pt;
+      color: #92400e;
+    }
+
+    /* ── TECH STACK GRID ───────────────────────────────────────── */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .tech-card {
+      border: 1px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+
+    .tech-card .tech-layer {
+      font-size: 8pt;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gray-400);
+      margin-bottom: 4px;
+    }
+
+    .tech-card .tech-name {
+      font-size: 11pt;
+      font-weight: 600;
+      color: var(--gray-900);
+      margin-bottom: 4px;
+    }
+
+    .tech-card .tech-desc {
+      font-size: 9.5pt;
+      color: var(--gray-600);
+    }
+
+    /* ── PIPELINE STEPS ────────────────────────────────────────── */
+    .pipeline {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      margin: 20px 0;
+      overflow: hidden;
+      border-radius: 10px;
+      border: 1px solid var(--gray-200);
+    }
+
+    .pipeline-step {
+      flex: 1;
+      padding: 16px 12px;
+      text-align: center;
+      border-right: 1px solid var(--gray-200);
+      position: relative;
+    }
+
+    .pipeline-step:last-child { border-right: none; }
+
+    .pipeline-step .step-num {
+      font-size: 8pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gray-400);
+      margin-bottom: 6px;
+    }
+
+    .pipeline-step .step-name {
+      font-size: 10pt;
+      font-weight: 600;
+      color: var(--gray-900);
+      margin-bottom: 4px;
+    }
+
+    .pipeline-step .step-desc {
+      font-size: 8.5pt;
+      color: var(--gray-600);
+    }
+
+    .pipeline-step.active { background: var(--gray-900); }
+    .pipeline-step.active .step-num { color: rgba(255,255,255,0.4); }
+    .pipeline-step.active .step-name { color: white; }
+    .pipeline-step.active .step-desc { color: rgba(255,255,255,0.6); }
+
+    /* ── DEMO STEPS ────────────────────────────────────────────── */
+    .demo-steps {
+      counter-reset: step;
+      list-style: none;
+      margin: 16px 0;
+    }
+
+    .demo-steps li {
+      counter-increment: step;
+      display: flex;
+      gap: 14px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+    }
+
+    .demo-steps li::before {
+      content: counter(step);
+      width: 26px; height: 26px;
+      background: var(--gray-900);
+      color: white;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10pt;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .demo-steps li .step-content { flex: 1; }
+    .demo-steps li .step-title {
+      font-weight: 600;
+      color: var(--gray-900);
+      margin-bottom: 3px;
+    }
+    .demo-steps li .step-detail {
+      font-size: 10pt;
+      color: var(--gray-600);
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9pt;
+      background: var(--gray-100);
+      padding: 2px 7px;
+      border-radius: 4px;
+      color: var(--gray-900);
+    }
+
+    .code-block {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9pt;
+      background: var(--gray-900);
+      color: #e5e7eb;
+      padding: 16px 20px;
+      border-radius: 10px;
+      margin: 12px 0;
+      line-height: 1.8;
+      white-space: pre;
+    }
+
+    .code-block .comment { color: #6b7280; }
+    .code-block .cmd { color: #86efac; }
+    .code-block .flag { color: #93c5fd; }
+
+    /* ── SCENARIO CARDS ────────────────────────────────────────── */
+    .scenario-card {
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .scenario-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .scenario-num {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12pt;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .scenario-title { font-weight: 600; font-size: 11pt; color: var(--gray-900); flex: 1; }
+
+    .badge {
+      font-size: 8pt;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-critical { background: #fee2e2; color: #991b1b; }
+    .badge-high     { background: #ffedd5; color: #9a3412; }
+    .badge-moderate { background: #fef9c3; color: #854d0e; }
+    .badge-low      { background: #dcfce7; color: #14532d; }
+
+    .scenario-body {
+      padding: 14px 18px;
+      font-size: 10pt;
+      color: var(--gray-600);
+      line-height: 1.7;
+    }
+
+    .scenario-body .expected {
+      margin-top: 10px;
+      padding: 10px 14px;
+      background: var(--green-light);
+      border-radius: 8px;
+      font-size: 9.5pt;
+      color: #15803d;
+    }
+
+    .scenario-body .expected strong { color: #166534; }
+
+    /* severity colors */
+    .sev-critical .scenario-num { background: #fee2e2; color: #991b1b; }
+    .sev-high .scenario-num     { background: #ffedd5; color: #9a3412; }
+    .sev-moderate .scenario-num { background: #fef9c3; color: #854d0e; }
+    .sev-low .scenario-num      { background: #dcfce7; color: #14532d; }
+
+    /* ── CHECKLIST ─────────────────────────────────────────────── */
+    .checklist { list-style: none; margin: 12px 0; }
+    .checklist li {
+      display: flex;
+      gap: 10px;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--gray-100);
+      font-size: 10.5pt;
+      color: var(--gray-700);
+      align-items: flex-start;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li .check {
+      width: 18px; height: 18px;
+      border: 2px solid var(--gray-300);
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ── FOOTER ────────────────────────────────────────────────── */
+    .page-footer {
+      margin-top: 50px;
+      padding-top: 16px;
+      border-top: 1px solid var(--gray-200);
+      display: flex;
+      justify-content: space-between;
+      font-size: 9pt;
+      color: var(--gray-400);
+    }
+
+    .url { color: var(--blue); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 10pt;
+    }
+    th {
+      background: var(--gray-50);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 9.5pt;
+      color: var(--gray-600);
+      border: 1px solid var(--gray-200);
+    }
+    td {
+      padding: 9px 14px;
+      border: 1px solid var(--gray-200);
+      color: var(--gray-700);
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: var(--gray-50); }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════
+     COVER PAGE
+════════════════════════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-badge">🚨 Disaster Relief Routing System</div>
+  <div class="cover-logo">ReliefRoute</div>
+  <div class="cover-subtitle">AI-Powered Logistics &amp; Fleet Optimization Platform</div>
+  <div class="cover-divider"></div>
+
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <div class="label">Document Type</div>
+      <div class="value">Demo Script</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="label">Scenarios</div>
+      <div class="value">10 Incidents</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="label">Stack</div>
+      <div class="value">Next.js + Django</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="label">Deployment</div>
+      <div class="value">Vercel + Supabase</div>
+    </div>
+  </div>
+
+  <div class="cover-urls">
+    <div class="url-row">
+      <span class="url-label">Frontend</span>
+      <span class="url-value">https://relief-route-pink.vercel.app</span>
+    </div>
+    <div class="url-row">
+      <span class="url-label">API</span>
+      <span class="url-value">https://relief-route-h537.vercel.app/api</span>
+    </div>
+    <div class="url-row">
+      <span class="url-label">Local Dev</span>
+      <span class="url-value">http://localhost:3000</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PAGE 1 — OVERVIEW & ARCHITECTURE
+════════════════════════════════════════════════════════════════ -->
+<div class="page">
+
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div class="section-title">Project Overview</div>
+  </div>
+
+  <p>
+    <strong>ReliefRoute</strong> is an intelligent disaster relief coordination platform that
+    combines a multi-agent AI pipeline, a Vehicle Routing Problem (VRP) with Time Windows solver,
+    and a live tactical operations dashboard. It automates the process of ingesting raw disaster
+    field reports, classifying urgency, placing sites on a map, optimizing vehicle dispatch routes,
+    and enabling AI-powered command queries — all in real time.
+  </p>
+
+  <h2>Technology Stack</h2>
+  <div class="tech-grid">
+    <div class="tech-card">
+      <div class="tech-layer">Frontend</div>
+      <div class="tech-name">Next.js 16 + TypeScript</div>
+      <div class="tech-desc">App Router, React 19, Leaflet maps, Three.js 3D globe, GSAP animations</div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-layer">Backend</div>
+      <div class="tech-name">Django + DRF</div>
+      <div class="tech-desc">Django REST Framework, multi-agent pipeline, OR-Tools VRP solver</div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-layer">AI Layer</div>
+      <div class="tech-name">Groq / LLaMA 3.3-70B</div>
+      <div class="tech-desc">Dispatch chat agent, intake parsing, urgency prioritization</div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-layer">Infrastructure</div>
+      <div class="tech-name">Vercel + Supabase</div>
+      <div class="tech-desc">Serverless Python functions, PostgreSQL via Supabase (SSL)</div>
+    </div>
+  </div>
+
+  <h2>System Architecture — The 4-Step Pipeline</h2>
+  <p>Every submitted disaster report flows through a fully automated 4-step agent pipeline:</p>
+
+  <div class="pipeline">
+    <div class="pipeline-step active">
+      <div class="step-num">Step 1</div>
+      <div class="step-name">Intake</div>
+      <div class="step-desc">Parse raw field report, extract site name, coordinates, resources needed</div>
+    </div>
+    <div class="pipeline-step">
+      <div class="step-num">Step 2</div>
+      <div class="step-name">Prioritize</div>
+      <div class="step-desc">Score urgency (0–100), assign severity, set time window</div>
+    </div>
+    <div class="pipeline-step">
+      <div class="step-num">Step 3</div>
+      <div class="step-name">VRP Solve</div>
+      <div class="step-desc">OR-Tools optimizes vehicle routes for all pending sites</div>
+    </div>
+    <div class="pipeline-step">
+      <div class="step-num">Step 4</div>
+      <div class="step-name">Dispatch</div>
+      <div class="step-desc">Save routes to DB, update fleet status, notify dashboard</div>
+    </div>
+  </div>
+
+  <h2>Key Features</h2>
+  <table>
+    <tr>
+      <th>Feature</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td><strong>Tactical Map</strong></td>
+      <td>Interactive Leaflet map showing disaster sites, vehicle depots, and optimized route polylines color-coded by vehicle</td>
+    </tr>
+    <tr>
+      <td><strong>Operations Panel</strong></td>
+      <td>Manage sites (severity, resource type, GPS coords, people affected) and fleet vehicles (capacity, status, driver)</td>
+    </tr>
+    <tr>
+      <td><strong>Dispatch AI</strong></td>
+      <td>LLaMA 3.3-70B chat agent grounded on live DB data — ask about routes, urgency, capacity, ETAs</td>
+    </tr>
+    <tr>
+      <td><strong>Fleet Simulator</strong></td>
+      <td>Animated real-time vehicle movement simulation along optimized routes</td>
+    </tr>
+    <tr>
+      <td><strong>SOLVE VRP Button</strong></td>
+      <td>One-click route optimization across all pending sites and available vehicles</td>
+    </tr>
+  </table>
+
+  <div class="page-footer">
+    <span>ReliefRoute — Demo Script</span>
+    <span>Page 1</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PAGE 2 — DEMO WALKTHROUGH
+════════════════════════════════════════════════════════════════ -->
+<div class="page page-break">
+
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div class="section-title">Demo Walkthrough</div>
+  </div>
+
+  <h2>Setup — Before Starting</h2>
+
+  <div class="info-box">
+    <strong>Live Demo (Recommended):</strong> Use the deployed production URLs. No local setup needed.
+    Frontend: <span class="url">relief-route-pink.vercel.app</span> |
+    API: <span class="url">relief-route-h537.vercel.app/api</span>
+  </div>
+
+  <div class="warn-box">
+    <strong>Local Demo:</strong> Start Django on port 8000 and Next.js on port 3000 before running the demo script.
+  </div>
+
+  <h2>Step-by-Step Demo Flow</h2>
+  <ol class="demo-steps">
+    <li>
+      <div class="step-content">
+        <div class="step-title">Open the dashboard</div>
+        <div class="step-detail">Navigate to <code>relief-route-pink.vercel.app</code>. The landing page shows an animated 3D globe with a tactical command interface. Click <strong>Enter Command</strong> or navigate to the Dashboard.</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-content">
+        <div class="step-title">Tour the Tactical Map tab</div>
+        <div class="step-detail">Point out the Leaflet map with color-coded disaster site markers (red = critical, orange = high, yellow = moderate, green = low). Vehicle depots are shown as blue pins. Existing routes appear as colored polylines.</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-content">
+        <div class="step-title">Show the Operations panel</div>
+        <div class="step-detail">Click the <strong>Operations</strong> tab. Demonstrate the Site list (name, severity, resource needed, urgency score) and Fleet list (vehicle name, capacity, driver, status). Add a new site manually to show the form.</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-content">
+        <div class="step-title">Submit disaster reports via the pipeline</div>
+        <div class="step-detail">
+          Run the demo script from the command line (local) or trigger reports via the API directly.<br>
+          Each report auto-triggers the 4-step AI pipeline: parse → score → VRP → dispatch.
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="step-content">
+        <div class="step-title">Click SOLVE VRP</div>
+        <div class="step-detail">Press the <strong>[ SOLVE VRP ]</strong> button in the top-right header. The system recalculates optimal routes for all pending sites using OR-Tools. The map updates with new route polylines within seconds.</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-content">
+        <div class="step-title">Demonstrate Dispatch AI</div>
+        <div class="step-detail">Go to <strong>Dispatch AI</strong> tab. Type natural language queries (see suggested queries below). The LLaMA 3.3-70B agent responds using live database context — route summaries, urgency scores, ETAs.</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-content">
+        <div class="step-title">Run Fleet Simulator</div>
+        <div class="step-detail">Go to <strong>Fleet Sim</strong> tab. Click play to animate vehicles moving along their optimized routes in real time. The top status bar updates distance and ETA counters live.</div>
+      </div>
+    </li>
+  </ol>
+
+  <h2>Suggested Dispatch AI Queries</h2>
+  <table>
+    <tr><th>Query</th><th>What It Demonstrates</th></tr>
+    <tr><td>"Route overview?"</td><td>Summary of all active vehicle routes from live DB</td></tr>
+    <tr><td>"Which site is highest priority?"</td><td>Urgency scoring and severity ranking</td></tr>
+    <tr><td>"How far has Vehicle Alpha travelled?"</td><td>Distance/time metrics from optimized routes</td></tr>
+    <tr><td>"Why was Site X dispatched first?"</td><td>AI explains VRP decision logic</td></tr>
+    <tr><td>"How many vehicles are deployed?"</td><td>Fleet capacity and status awareness</td></tr>
+  </table>
+
+  <h2>Running the Demo Script (Local)</h2>
+  <div class="code-block"><span class="comment"># Run all 10 reports in sequence (3s pause between each)</span>
+<span class="cmd">python</span> demo_script.py
+
+<span class="comment"># Custom pause (5 seconds)</span>
+<span class="cmd">python</span> demo_script.py <span class="flag">--pause</span> 5
+
+<span class="comment"># Submit only report #3 (0-indexed)</span>
+<span class="cmd">python</span> demo_script.py <span class="flag">--index</span> 3
+
+<span class="comment"># Preview all reports without submitting</span>
+<span class="cmd">python</span> demo_script.py <span class="flag">--dry-run</span></div>
+
+  <div class="info-box">
+    After each report, refresh the Tactical Map at <code>localhost:3000</code> — the new site marker and re-optimized routes appear automatically within 5 seconds.
+  </div>
+
+  <div class="page-footer">
+    <span>ReliefRoute — Demo Script</span>
+    <span>Page 2</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PAGE 3 — SCENARIOS (1–5)
+════════════════════════════════════════════════════════════════ -->
+<div class="page page-break">
+
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div class="section-title">Scripted Disaster Scenarios</div>
+  </div>
+
+  <p>The following 10 scenarios are pre-written for dramatic narrative effect: starting moderate, escalating to critical mass incidents, and closing with logistical challenges. Submit them in order for maximum impact.</p>
+
+  <!-- SCENARIO 1 -->
+  <div class="scenario-card sev-moderate">
+    <div class="scenario-header">
+      <div class="scenario-num">1</div>
+      <div class="scenario-title">Gas Leak — Residential Area, Haight &amp; Masonic, San Francisco</div>
+      <span class="badge badge-moderate">Moderate · 4/10</span>
+    </div>
+    <div class="scenario-body">
+      Gas leak reported at the corner of Haight Street and Masonic Avenue. Approximately 45 residents evacuated from nearby apartments. Need immediate supply of emergency respirators and first aid kits. The leak has been contained but residents cannot return home.
+      <div class="expected"><strong>Expected pipeline output:</strong> Site created with urgency score ~40, 1 vehicle route assigned for respirators + first aid delivery.</div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 2 -->
+  <div class="scenario-card sev-high">
+    <div class="scenario-header">
+      <div class="scenario-num">2</div>
+      <div class="scenario-title">School Roof Collapse — Children Trapped, Lincoln Elementary</div>
+      <span class="badge badge-high">High · 7/10</span>
+    </div>
+    <div class="scenario-body">
+      URGENT: Partial roof collapse at Lincoln Elementary School on 23rd Avenue. Estimated 60 children and 8 staff members sheltering in the gymnasium. Structural integrity compromised. Require rescue gear, medical supplies, and emergency food rations. No confirmed injuries yet but situation is deteriorating.
+      <div class="expected"><strong>Expected pipeline output:</strong> High urgency score ~70, prioritized in VRP — vehicle dispatched before lower-severity sites.</div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 3 -->
+  <div class="scenario-card sev-high">
+    <div class="scenario-header">
+      <div class="scenario-num">3</div>
+      <div class="scenario-title">Flash Flood — 120 Residents Stranded, Sunset District</div>
+      <span class="badge badge-high">High · 8/10</span>
+    </div>
+    <div class="scenario-body">
+      Flash flooding in the Sunset District near Irving Street and 9th Avenue. Street-level flooding 1.5 meters deep. Around 120 residents stranded on upper floors. Need inflatable rescue boats, water purification units, and emergency food for 72 hours. Three elderly residents cannot be evacuated without medical assistance.
+      <div class="expected"><strong>Expected pipeline output:</strong> Urgency ~80, multi-stop route — rescue boats + food + medical on same vehicle or split across two.</div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 4 -->
+  <div class="scenario-card sev-critical">
+    <div class="scenario-header">
+      <div class="scenario-num">4</div>
+      <div class="scenario-title">Chemical Spill — 90 Trapped, Bay Bridge Approach</div>
+      <span class="badge badge-critical">Critical · 9/10</span>
+    </div>
+    <div class="scenario-body">
+      CRITICAL EMERGENCY: Chemical tanker overturned on Bay Bridge approach ramp near Fremont Street. Unknown industrial solvent leaking. 200-meter exclusion zone established. Approximately 90 people trapped in vehicles. Require hazmat suits, oxygen tanks, medical triage units, and decontamination equipment. Two confirmed injuries. Fumes spreading — time critical.
+      <div class="expected"><strong>Expected pipeline output:</strong> Urgency ~92, inserted at top of VRP route, earliest time window, dedicated vehicle assignment.</div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 5 -->
+  <div class="scenario-card sev-moderate">
+    <div class="scenario-header">
+      <div class="scenario-num">5</div>
+      <div class="scenario-title">Elderly Care Facility — Power Outage, Life Support at Risk</div>
+      <span class="badge badge-moderate">Moderate · 6/10</span>
+    </div>
+    <div class="scenario-body">
+      Power outage at Sunset Valley Care Home on Taraval Street. 80 elderly residents housed, 12 on life-support or oxygen-dependent equipment. Backup generator failed 2 hours ago. Need portable generators, emergency oxygen supplies, and medical staff immediately. Temperature inside dropping.
+      <div class="expected"><strong>Expected pipeline output:</strong> Despite "moderate" severity label, AI escalates urgency due to life-support context. Score ~65, high priority routing.</div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>ReliefRoute — Demo Script</span>
+    <span>Page 3</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PAGE 4 — SCENARIOS (6–10)
+════════════════════════════════════════════════════════════════ -->
+<div class="page page-break">
+
+  <!-- SCENARIO 6 -->
+  <div class="scenario-card sev-critical">
+    <div class="scenario-header">
+      <div class="scenario-num">6</div>
+      <div class="scenario-title">Earthquake Aftershock — Building Collapse, Market St &amp; Castro</div>
+      <span class="badge badge-critical">Critical · 10/10</span>
+    </div>
+    <div class="scenario-body">
+      MAYDAY: Five-story residential building partially collapsed on Market Street near Castro. Triggered by magnitude 4.2 aftershock at 14:32 local time. Estimated 35 people still inside including families with children. Require heavy hydraulic spreaders, search dogs, thermal imaging, and emergency medical teams. Three confirmed fatalities, twelve injured.
+      <div class="expected"><strong>Expected pipeline output:</strong> Maximum urgency score 100, immediate VRP re-solve, all available vehicles re-routed, this site becomes anchor stop #1.</div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 7 -->
+  <div class="scenario-card sev-high">
+    <div class="scenario-header">
+      <div class="scenario-num">7</div>
+      <div class="scenario-title">Hospital Emergency Supply Shortage — SF General Hospital</div>
+      <span class="badge badge-high">High · 7/10</span>
+    </div>
+    <div class="scenario-body">
+      SF General Hospital on Potrero Avenue reporting critical shortage of blood plasma, surgical gloves, and IV fluids due to supply chain disruption. ICU capacity at 94%. Emergency resupply needed within 4 hours for 200 patients. Coordinates: 37.7555 N, 122.4055 W.
+      <div class="expected"><strong>Expected pipeline output:</strong> Tight time window (4-hour deadline) enforced in VRP — vehicle assigned with time constraint, shown in driver instructions.</div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 8 -->
+  <div class="scenario-card sev-critical">
+    <div class="scenario-header">
+      <div class="scenario-num">8</div>
+      <div class="scenario-title">Wildfire Evacuation Route Blocked — 500 Stranded, Twin Peaks</div>
+      <span class="badge badge-critical">Critical · 9/10</span>
+    </div>
+    <div class="scenario-body">
+      Wildfire smoke and falling debris blocking primary evacuation route on Twin Peaks Boulevard. Approximately 500 residents attempting to evacuate are now stranded. Need emergency buses, water tanker trucks to clear ash, and police escort to redirect traffic. Three people treated for smoke inhalation on scene. Window closing fast.
+      <div class="expected"><strong>Expected pipeline output:</strong> Urgency ~90, large-capacity vehicle required. VRP splits stops across multiple vehicles due to 500-person scale.</div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 9 -->
+  <div class="scenario-card sev-low">
+    <div class="scenario-header">
+      <div class="scenario-num">9</div>
+      <div class="scenario-title">Food Distribution Overwhelmed — Civic Center Plaza</div>
+      <span class="badge badge-low">Low · 3/10</span>
+    </div>
+    <div class="scenario-body">
+      Emergency food distribution point at Civic Center Plaza overwhelmed. Over 800 displaced residents arrived seeking emergency rations but only supplies for 300 available. Crowd management needed, plus emergency resupply of ready-to-eat meals and bottled water. No violence reported but situation may escalate.
+      <div class="expected"><strong>Expected pipeline output:</strong> Low urgency score ~30 — routed last. Demonstrates how VRP respects priority ordering and time windows simultaneously.</div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 10 -->
+  <div class="scenario-card sev-moderate">
+    <div class="scenario-header">
+      <div class="scenario-num">10</div>
+      <div class="scenario-title">Bridge Infrastructure Damage — Ferry Building Terminal</div>
+      <span class="badge badge-moderate">Moderate · 5/10</span>
+    </div>
+    <div class="scenario-body">
+      Structural crack detected in the Ferry Building terminal loading dock on the Embarcadero. Engineers evacuated the area. Approximately 150 commuters stranded with no alternate transport. Need emergency temporary shelters, food, water for affected commuters, and engineering assessment team on site.
+      <div class="expected"><strong>Expected pipeline output:</strong> Moderate urgency ~50, paired with nearby Scenario 9 (Civic Center) for route efficiency — demonstrates geospatial clustering in VRP.</div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>ReliefRoute — Demo Script</span>
+    <span>Page 4</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PAGE 5 — API REFERENCE & CHECKLIST
+════════════════════════════════════════════════════════════════ -->
+<div class="page page-break">
+
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <div class="section-title">API Reference</div>
+  </div>
+
+  <table>
+    <tr>
+      <th>Endpoint</th>
+      <th>Method</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td><code>/api/sites/</code></td>
+      <td>GET / POST</td>
+      <td>List all disaster sites or create a new one manually</td>
+    </tr>
+    <tr>
+      <td><code>/api/vehicles/</code></td>
+      <td>GET / POST</td>
+      <td>List all fleet vehicles or add a new vehicle</td>
+    </tr>
+    <tr>
+      <td><code>/api/routes/</code></td>
+      <td>GET</td>
+      <td>Retrieve all current optimized vehicle routes with stops and instructions</td>
+    </tr>
+    <tr>
+      <td><code>/api/optimize/</code></td>
+      <td>POST</td>
+      <td>Trigger VRP route optimization across all pending sites and available vehicles</td>
+    </tr>
+    <tr>
+      <td><code>/api/agent/chat/</code></td>
+      <td>POST</td>
+      <td>Send a question to the Dispatch AI agent. Body: <code>{"message": "..."}</code></td>
+    </tr>
+    <tr>
+      <td><code>/api/agent/pipeline/</code></td>
+      <td>POST</td>
+      <td>Submit a raw disaster field report. Body: <code>{"report": "..."}</code> — runs full 4-step pipeline</td>
+    </tr>
+  </table>
+
+  <div class="section-header" style="margin-top:36px">
+    <div class="section-num">5</div>
+    <div class="section-title">Demo Day Checklist</div>
+  </div>
+
+  <h2>Before the Demo</h2>
+  <ul class="checklist">
+    <li><div class="check"></div>Open <code>relief-route-pink.vercel.app</code> in browser (test that it loads)</li>
+    <li><div class="check"></div>Verify <code>relief-route-h537.vercel.app/api/sites/</code> returns JSON</li>
+    <li><div class="check"></div>Confirm Supabase DB has data (run <code>seed.py</code> locally if needed)</li>
+    <li><div class="check"></div>Confirm at least 2 vehicles exist in the Operations → Fleet panel</li>
+    <li><div class="check"></div>Open Dispatch AI tab and send a test message to verify Groq API key works</li>
+    <li><div class="check"></div>Zoom browser to 100% and open in fullscreen for the map view</li>
+  </ul>
+
+  <h2>During the Demo</h2>
+  <ul class="checklist">
+    <li><div class="check"></div>Walk through all 4 dashboard tabs (Tactical Map, Operations, Dispatch AI, Fleet Sim)</li>
+    <li><div class="check"></div>Submit at least Scenario 4 (Chemical Spill) or Scenario 6 (Building Collapse) live</li>
+    <li><div class="check"></div>Click SOLVE VRP and show the map updating in real time</li>
+    <li><div class="check"></div>Ask the Dispatch AI: <em>"Which site is highest priority and why?"</em></li>
+    <li><div class="check"></div>Run Fleet Simulator to show animated vehicle movement</li>
+  </ul>
+
+  <h2>Talking Points</h2>
+  <ul class="checklist">
+    <li><div class="check"></div>AI pipeline runs in &lt; 5 seconds per report end-to-end</li>
+    <li><div class="check"></div>VRP solver uses OR-Tools — same library used by Google Maps Logistics</li>
+    <li><div class="check"></div>Dispatch AI is grounded on live DB, not hallucinating — it only knows what's deployed</li>
+    <li><div class="check"></div>Fully serverless — no persistent server, auto-scales with Vercel</li>
+    <li><div class="check"></div>Supabase PostgreSQL — persistent data across sessions and deployments</li>
+  </ul>
+
+  <div class="info-box" style="margin-top: 24px;">
+    <strong>Tip:</strong> For the most dramatic effect, submit Scenarios 1–3 first (low/moderate), then
+    submit Scenario 6 (SEVERITY 10 — building collapse) and click SOLVE VRP. The map visually
+    re-routes all vehicles to prioritize the new critical incident.
+  </div>
+
+  <div class="page-footer">
+    <span>ReliefRoute — Demo Script</span>
+    <span>Page 5</span>
+  </div>
+</div>
+
+</body>
+</html>
