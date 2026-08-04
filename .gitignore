@@ -16,5 +16,7 @@ __pycache__/
 env/
 venv/
 .venv/
-db.sqlite3
 .pytest_cache/
+
+# Antigravity AI assistant cache
+.antigravity/

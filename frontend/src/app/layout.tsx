@@ -14,8 +14,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ReliefRoute — AI Disaster Relief Routing",
+  title: "ReliefRoute",
   description: "ReliefRoute uses a multi-agent AI pipeline and a VRP with Time Windows solver to route disaster relief resources in real time.",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
