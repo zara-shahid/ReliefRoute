@@ -345,7 +345,7 @@ export default function LandingPage() {
       style={{ height: "100vh", overflowY: "auto", overflowX: "hidden", background: "#030712", color: "#f0f6ff", scrollBehavior: "smooth" }}
     >
       {/* ══ Layered background ══ */}
-      <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0 }}>
+      <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0, overflow: "hidden" }}>
         {/* Perspective grid */}
         <div style={{
           position: "absolute", inset: 0,
@@ -386,7 +386,7 @@ export default function LandingPage() {
             <span className="font-mono-custom" style={{ marginLeft: 8, fontSize: "0.55rem", letterSpacing: "0.14em", color: "#0ea5e9" }}>[ AI OPS ]</span>
           </div>
         </div>
-        <nav style={{ display: "flex", gap: "2rem" }}>
+        <nav className="hidden md:flex gap-8" style={{}}>
           {[["#overview", "Overview"], ["#pipeline", "AI Pipeline"], ["#optimization", "VRP Engine"], ["#tech", "Tech"]].map(([href, lbl]) => (
             <a key={href} href={href} className="font-mono-custom" style={{ fontSize: "0.68rem", letterSpacing: "0.08em", textTransform: "uppercase" as const, color: "rgba(148,163,184,0.8)", textDecoration: "none", transition: "all 0.2s" }}
               onMouseEnter={(e) => { e.currentTarget.style.color = "#0ea5e9"; e.currentTarget.style.textShadow = "0 0 8px rgba(14,165,233,0.5)"; }}
@@ -414,7 +414,7 @@ export default function LandingPage() {
         </div>
 
         {/* Left-aligned text block */}
-        <div ref={heroRef} style={{ position: "relative", zIndex: 10, maxWidth: 640, padding: "0 4rem 0 max(4rem, 5vw)" }}>
+        <div ref={heroRef} className="px-4 md:px-12 lg:px-16" style={{ position: "relative", zIndex: 10, maxWidth: 640 }}>
           <div className="kicker" style={{ marginBottom: "1.5rem" }}>
             <span style={{ color: "#f87171", animation: "pulse 2s infinite" }}>●</span>
             Autonomous Disaster Relief Logistics
@@ -538,7 +538,7 @@ export default function LandingPage() {
           </div>
 
           {/* Count-up stats */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 10, marginTop: "3.5rem" }}>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 mt-14" style={{}}>
             <StatCard numericVal={40} suffix="%" label="Distance Saved" />
             <StatCard numericVal={22} suffix="+" label="Live Sites" />
             <StatCard numericVal={6} label="Active Fleet" />
@@ -548,7 +548,7 @@ export default function LandingPage() {
       </section>
 
       {/* ══ PROBLEM SECTION ══ */}
-      <section style={{ position: "relative", zIndex: 10, padding: "8rem max(2rem,5vw)", maxWidth: 1400, margin: "0 auto" }}>
+      <section className="px-4 md:px-8 lg:px-16 py-16 md:py-32" style={{ position: "relative", zIndex: 10, maxWidth: 1400, margin: "0 auto" }}>
         <span className="font-mono-custom" style={{ position: "absolute", top: "1rem", right: "3vw", fontSize: "15vw", fontWeight: 900, color: "transparent", WebkitTextStroke: "2px rgba(255,255,255,0.03)", userSelect: "none" }}>01</span>
 
         <div ref={problemRef} style={{ maxWidth: 480, marginBottom: "3.5rem" }}>
@@ -563,7 +563,7 @@ export default function LandingPage() {
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20 }}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5" style={{}}>
           {[
             { num: "01", title: "Unstructured Report Triage", desc: "Disaster reports enter via social posts, voice notes, and raw SMS. Manual triage takes hours to estimate supply demands.", glow: "rgba(239,68,68,0.18)", accent: "#ef4444", d: 0 },
             { num: "02", title: "Suboptimal Route Allocation", desc: "Relief trucks cross paths without coordinate optimization, doubling fuel consumption and delaying critical aid delivery.", glow: "rgba(245,158,11,0.18)", accent: "#f59e0b", d: 0.12 },
@@ -580,7 +580,7 @@ export default function LandingPage() {
       </section>
 
       {/* ══ PIPELINE ══ */}
-      <section id="pipeline" style={{ position: "relative", zIndex: 10, padding: "8rem max(2rem,5vw)", borderTop: "1px solid rgba(255,255,255,0.05)", background: "linear-gradient(to bottom,transparent,rgba(6,9,20,0.6),transparent)" }}>
+      <section id="pipeline" className="px-4 md:px-8 lg:px-16 py-16 md:py-32" style={{ position: "relative", zIndex: 10, borderTop: "1px solid rgba(255,255,255,0.05)", background: "linear-gradient(to bottom,transparent,rgba(6,9,20,0.6),transparent)" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
           <span className="font-mono-custom" style={{ position: "absolute", top: 0, left: "2vw", fontSize: "15vw", fontWeight: 900, color: "transparent", WebkitTextStroke: "2px rgba(255,255,255,0.03)", userSelect: "none" }}>02</span>
 
@@ -594,7 +594,7 @@ export default function LandingPage() {
             <p style={{ color: "rgba(148,163,184,0.72)", lineHeight: 1.7, fontSize: "0.88rem", fontWeight: 300, maxWidth: 360, marginLeft: "auto" }}>Powered by LangGraph multi-agent orchestration and Gemini AI.</p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16 }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" style={{}}>
             {[
               { step: "01", title: "Intake Agent", desc: "Extracts coordinates, urgency metrics, and supply requirements from unstructured field text and multi-channel inputs.", badge: "Gemini 2.5", accent: "#38bdf8", glow: "rgba(56,189,248,0.15)", d: 0 },
               { step: "02", title: "Prioritization Agent", desc: "Ranks disaster zones 0–100 by population density, severity, and urgency time-caps with dynamic reweighting.", badge: "Urgency Model", accent: "#818cf8", glow: "rgba(129,140,248,0.15)", d: 0.1 },
@@ -614,10 +614,10 @@ export default function LandingPage() {
       </section>
 
       {/* ══ VRP ENGINE ══ */}
-      <section id="optimization" style={{ position: "relative", zIndex: 10, padding: "8rem max(2rem,5vw)", borderTop: "1px solid rgba(255,255,255,0.05)", maxWidth: 1400, margin: "0 auto" }}>
+      <section id="optimization" className="px-4 md:px-8 lg:px-16 py-16 md:py-32" style={{ position: "relative", zIndex: 10, borderTop: "1px solid rgba(255,255,255,0.05)", maxWidth: 1400, margin: "0 auto" }}>
         <span className="font-mono-custom" style={{ position: "absolute", top: "1rem", right: "2vw", fontSize: "15vw", fontWeight: 900, color: "transparent", WebkitTextStroke: "2px rgba(255,255,255,0.03)", userSelect: "none" }}>03</span>
 
-        <div ref={vrpRef} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", alignItems: "center" }}>
+        <div ref={vrpRef} className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center" style={{}}>
           <div>
             <div className="font-mono-custom" style={{ marginBottom: "1rem", color: "#ef4444", fontSize: "0.75rem", letterSpacing: "0.2em" }}>[ CONSTRAINT PROGRAMMING ]</div>
             <h2 className="font-display" style={{ fontSize: "clamp(1.8rem, 3vw, 2.8rem)", fontWeight: 800, letterSpacing: "-0.03em", color: "#fff", lineHeight: 1.12, marginBottom: "1rem" }}>
@@ -667,7 +667,7 @@ export default function LandingPage() {
       </section>
 
       {/* ══ TECH STACK ══ */}
-      <section id="tech" style={{ position: "relative", zIndex: 10, padding: "7rem max(2rem,5vw)", borderTop: "1px solid rgba(255,255,255,0.05)", background: "rgba(4,8,18,0.65)" }}>
+      <section id="tech" className="px-4 md:px-8 lg:px-16 py-16 md:py-28" style={{ position: "relative", zIndex: 10, borderTop: "1px solid rgba(255,255,255,0.05)", background: "rgba(4,8,18,0.65)" }}>
         <div ref={techRef} style={{ maxWidth: 1200, margin: "0 auto", textAlign: "center" }}>
           <div className="font-mono-custom" style={{ display: "flex", justifyContent: "center", marginBottom: "2rem", color: "#0ea5e9", fontSize: "0.75rem", letterSpacing: "0.2em" }}>[ PRODUCTION INFRASTRUCTURE ]</div>
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 12 }}>
@@ -693,8 +693,8 @@ export default function LandingPage() {
       </section>
 
       {/* ══ CTA ══ */}
-      <section style={{ position: "relative", zIndex: 10, padding: "10rem max(2rem,5vw)", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-        <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 700, height: 400, background: "radial-gradient(ellipse,rgba(239,68,68,0.12),rgba(99,102,241,0.06) 50%,transparent 70%)", pointerEvents: "none" }} />
+      <section className="px-4 md:px-8 lg:px-16 py-16 md:py-40" style={{ position: "relative", zIndex: 10, borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+        <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: "100%", maxWidth: 700, height: 400, background: "radial-gradient(ellipse,rgba(239,68,68,0.12),rgba(99,102,241,0.06) 50%,transparent 70%)", pointerEvents: "none" }} />
         <div ref={ctaRef} style={{ textAlign: "center", maxWidth: 700, margin: "0 auto", position: "relative" }}>
           <div className="font-mono-custom" style={{ display: "flex", justifyContent: "center", marginBottom: "1.5rem", color: "#ef4444", fontSize: "0.75rem", letterSpacing: "0.2em" }}>[ SYSTEM READY ]</div>
           <h2 className="font-display cyber-glitch" data-text="READY TO DISPATCH?" style={{ position: "relative", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "transparent", WebkitTextStroke: "2px #fff", textShadow: "0 0 20px rgba(14,165,233,0.5), 0 0 40px rgba(239,68,68,0.5)", lineHeight: 1.07, marginBottom: "1.5rem", display: "inline-block" }}>
@@ -719,9 +719,9 @@ export default function LandingPage() {
       </section>
 
       {/* ══ FOOTER ══ */}
-      <footer style={{
+      <footer className="flex flex-col md:flex-row justify-between items-center gap-3" style={{
         position: "relative", zIndex: 10, borderTop: "1px solid rgba(255,255,255,0.05)",
-        padding: "2rem max(2rem,4vw)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 10,
+        padding: "2rem max(2rem,4vw)",
       }}>
         <span className="font-mono-custom" style={{ fontSize: "0.7rem", color: "rgba(100,116,139,0.65)" }}>ReliefRoute — AI Disaster Relief Routing System</span>
         <span className="font-mono-custom" style={{ fontSize: "0.7rem", color: "rgba(100,116,139,0.45)" }}>Orion Global Hackathon 2026</span>

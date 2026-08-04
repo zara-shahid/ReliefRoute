@@ -40,10 +40,10 @@ export const DispatchChat: React.FC<DispatchChatProps> = ({
   };
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col h-[580px]">
+    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col h-[400px] lg:h-[580px]">
       
       {/* Header */}
-      <div className="flex items-center justify-between pb-3 border-b border-slate-800 shrink-0">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-800 shrink-0 gap-2">
         <div className="flex items-center space-x-2.5">
           <div className="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400">
             <Bot className="w-4 h-4" />

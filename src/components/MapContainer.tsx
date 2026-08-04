@@ -68,10 +68,10 @@ export const MapContainer: React.FC<MapContainerProps> = ({
   });
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl flex flex-col h-[580px] relative">
+    <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl flex flex-col h-[400px] lg:h-[580px] relative">
       
       {/* Map Control Bar */}
-      <div className="bg-slate-950 px-4 py-2.5 border-b border-slate-800 flex items-center justify-between text-xs text-slate-300">
+      <div className="bg-slate-950 px-4 py-2.5 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-300">
         <div className="flex items-center space-x-2">
           <Compass className="w-4 h-4 text-rose-400 animate-spin-slow" />
           <span className="font-semibold text-white">Live Disaster Operational Grid</span>

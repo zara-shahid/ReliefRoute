@@ -150,7 +150,7 @@ export default function VehicleSimulator({
         color: '#e2eeff',
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           <Activity size={16} color="#ef4444" className="animate-pulse" />
           <span style={{ fontSize: 13, fontWeight: 700, color: '#ffffff' }}>Live Fleet Simulator</span>

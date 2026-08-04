@@ -92,7 +92,7 @@ export const ReportIntakePanel: React.FC<ReportIntakePanelProps> = ({
           />
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center space-x-2 text-[11px] text-slate-400">
             <AlertCircle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
             <span>Triggers Intake -&gt; Prioritization -&gt; VRP Solver -&gt; Dispatch Agent</span>

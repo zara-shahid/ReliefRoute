@@ -87,8 +87,7 @@ export default function SiteFleetManager({
             onChange={(e) => setSiteName(e.target.value)}
             className="w-full px-3 py-1.5 bg-[#030712] border border-slate-800 rounded-xl text-xs text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-rose-500/50"
           />
-          
-          <div className="grid grid-cols-3 gap-1.5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
             <select
               value={resource}
               onChange={(e) => setResource(e.target.value)}

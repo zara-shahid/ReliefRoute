@@ -35,7 +35,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <h1 className="text-xl font-bold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">
                 ReliefRoute
               </h1>
-              <span className="px-2 py-0.5 text-[10px] font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30 rounded-full uppercase tracking-wider">
+              <span className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30 rounded-full uppercase tracking-wider">
                 OR Multi-Agent
               </span>
             </div>
@@ -89,7 +89,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-rose-600 hover:bg-rose-500 active:bg-rose-700 text-white shadow-md shadow-rose-900/30 transition-all cursor-pointer disabled:opacity-50"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isOptimizing ? 'animate-spin' : ''}`} />
-            <span>{isOptimizing ? 'Solving...' : 'Solve VRP Route'}</span>
+            <span className="hidden sm:inline">{isOptimizing ? 'Solving...' : 'Solve VRP Route'}</span>
           </button>
 
           <button

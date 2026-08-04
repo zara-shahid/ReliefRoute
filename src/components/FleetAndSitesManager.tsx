@@ -53,7 +53,7 @@ export const FleetAndSitesManager: React.FC<FleetAndSitesManagerProps> = ({
     <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
       
       {/* Tab Navigation */}
-      <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3 border-b border-slate-800 gap-3">
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setActiveTab('sites')}
